@@ -1,1 +1,46 @@
-<h1>Todoリスト</h1>
+<!DOCTYPE html>
+{% load static %}
+<html lang="ja">
+<head>
+      <meta charset="UTF-8">
+      <title>Todo List</title>
+      <link rel="stylesheet" href="{% static 'app_css/index.css'%}">
+      <script type="module" src="{% static 'app_js/index.js'%}"></script>
+</head>
+<body>
+      <div>
+            <input id="task-regist" type="text" placeholder="タスク">
+            <select id="priority-regist">
+                  <option value="1">高</option>
+                  <option value="2">中</option>
+                  <option value="3">低</option>
+            </select>
+            <input type="text" name="date-start" id="date-start-regist" onfocus="this.type='date'" onfocusout="this.type='text'" placeholder="開始日" style="height: 30px; width: 200px; padding: 10px 10px">
+            <input type="text" name="date-end" id="date-end-regist" onfocus="this.type='date'" onfocusout="this.type='text'" placeholder="締め切り" style="height: 30px; width: 200px; padding: 10px 10px">
+            <input type="text" id="comment-regist" placeholder="備考">
+            <input type="button" id="reset-btn" value="リセット">
+            <input type="button" id="regist-btn" value="追加">
+      </div>
+      <div>
+            <div>
+                  <input type="text" placeholder="タスク">
+                  <button>検索</button>
+            </div>
+            <table>
+                  <thead>
+                        <tr>
+                              <th>タスク</th>
+                              <th>優先度</th>
+                              <th></th>
+                        </tr>
+                  </thead>
+                  <tbody>
+                        <tr>
+                              <td>abc</td>
+                              <td>bcd</td>
+                        </tr>
+                  </tbody>
+            </table>
+      </div>
+</body>
+</html>

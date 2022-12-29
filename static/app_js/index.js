@@ -16,6 +16,23 @@ window.addEventListener('DOMContentLoaded', () => {
                   if(this.readyState === XMLHttpRequest.DONE && this.status === 200){
                         let res = this.response
                         console.log(res)
+                        // let res_arr = res.split("}{")
+                        // let tr_html = ""
+                        // for(let todo of res_arr){
+                        //       let todo_arr = todo.split(",")
+                        //       let td_html = ""
+                        //       todo_arr.forEach((e, i) => {
+                        //             let v = e.split(":")
+                        //             console.log(e)
+                        //             td_html = "<td>" + v + "</td>"   
+                        //       });
+                        //       tr_html += "<tr>" + td_html + "</tr>"
+                        // }
+                        // console.log(tr_html)
+                
+                        // for(let todo of res_json["todo_json"]){
+                        //       console.log(todo)
+                        // }
                   }
             }
             request.send(data)

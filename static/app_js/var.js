@@ -12,3 +12,11 @@ export let comment_regist = document.getElementById("comment-regist")
 export let reset_btn = document.getElementById("reset-btn")
 // 登録ボタン
 export let regist_btn = document.getElementById("regist-btn")
+
+// タスク（検索）
+export let task_search = document.getElementById("search-task")
+// 検索ボタン
+export let search_btn = document.getElementById("search-btn")
+
+// todolist 一覧テーブル
+export let list_table = document.querySelector("#list-table tbody")

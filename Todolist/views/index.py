@@ -6,9 +6,7 @@ from Todolist.models import Priority, Todo
 
 def index(request):
     todo = Todo.objects.all()
-    print(todo)
-    for i in todo:
-        print(i.task,i.date_start,i.priority)
+
     return render(request, "HTML/index.html")
 
 @csrf_exempt
@@ -37,6 +35,21 @@ def regist(request):
         todo_str += "priority:" + todo.priority.label + ","
         todo_str += "comment:" + todo.comment + ","
         todo_str += "status:" + str(todo.status) + ","
-        todo_str += "deleted:" + str(todo.deleted) + ","
+        todo_str += "deleted:" + str(todo.deleted)
         todo_arr.append(todo_str + "//")
     return HttpResponse(todo_arr)
+
+@csrf_exempt
+def search(request):
+    task_search = request.POST.get("task_search")
+    todo_list = Todo.objects.filter(task__icontains=task_search)
+    for i in todo_list:
+        print(i)
+
+# delete todo
+def delete(request):
+    pk = request.POST.get("pk")
+    todo = Todo.objects.get(pk=pk)
+    todo.deleted = 1
+    todo.save()
+    return HttpResponse(todo.id)

@@ -19,25 +19,32 @@
             <input type="text" name="date-end" id="date-end-regist" onfocus="this.type='date'" onfocusout="this.type='text'" placeholder="締め切り" style="height: 30px; width: 200px; padding: 10px 10px">
             <input type="text" id="comment-regist" placeholder="備考">
             <input type="button" id="reset-btn" value="リセット">
-            <input type="button" id="regist-btn" value="追加">
+            <input type="button" id="regist-btn" value="登録">
       </div>
       <div>
             <div>
-                  <input type="text" placeholder="タスク">
-                  <button>検索</button>
+                  <input type="text" id="search-task" placeholder="タスク">
+                  <input type="button" id="search-btn" value="検索">
             </div>
-            <table>
+            <table id="list-table">
                   <thead>
                         <tr>
                               <th>タスク</th>
+                              <th>開始日</th>
+                              <th>締め切り</th>
                               <th>優先度</th>
-                              <th></th>
+                              <th>備考</th>
+                              <th>操作</th>
                         </tr>
                   </thead>
                   <tbody>
                         <tr>
                               <td>abc</td>
                               <td>bcd</td>
+                        </tr>
+                        <tr>
+                              <td>a</td>
+                              <td>b</td>
                         </tr>
                   </tbody>
             </table>

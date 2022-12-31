@@ -8,44 +8,47 @@
       <script type="module" src="{% static 'app_js/index.js'%}"></script>
 </head>
 <body>
-      <div>
-            <input id="task-regist" type="text" placeholder="タスク">
-            <select id="priority-regist">
+      <label><h2>Todo List</h2></label>
+      <div class="regist area">
+            <input class="task" id="task-regist" type="text" placeholder="タスク(必須)">
+            <select class="priority" id="priority-regist">
                   <option value="1">高</option>
                   <option value="2">中</option>
                   <option value="3">低</option>
             </select>
-            <input type="text" name="date-start" id="date-start-regist" onfocus="this.type='date'" onfocusout="this.type='text'" placeholder="開始日" style="height: 30px; width: 200px; padding: 10px 10px">
-            <input type="text" name="date-end" id="date-end-regist" onfocus="this.type='date'" onfocusout="this.type='text'" placeholder="締め切り" style="height: 30px; width: 200px; padding: 10px 10px">
+            <input type="text" name="date-start" class="date" id="date-start-regist" onfocus="this.type='date'" onfocusout="this.type='text'" placeholder="開始日">
+            <input type="text" name="date-end" class="date" id="date-end-regist" onfocus="this.type='date'" onfocusout="this.type='text'" placeholder="締め切り">
             <input type="text" id="comment-regist" placeholder="備考">
-            <input type="button" id="reset-btn" value="リセット">
-            <input type="button" id="regist-btn" value="登録">
+            <input type="button" class="button" id="reset_regist-btn" value="リセット">
+            <input type="button" class="button special" id="regist-btn" value="登録">
       </div>
-      <div>
-            <div>
-                  <input type="text" id="search-task" placeholder="タスク">
-                  <input type="button" id="search-btn" value="検索">
+      <div class="search">
+            <label class="tab-label" id="tab-label-search" for="tab-search-list">検索一覧</label>
+            <div class="search area">
+                  <input type="text" class="task" id="search-task" placeholder="タスク">
+                  <select class="priority" id="priority-search">
+                        <option value="1">高</option>
+                        <option value="2">中</option>
+                        <option value="3">低</option>
+                  </select>
+                  <input type="text" name="date-start" class="date" id="date-start-search" onfocus="this.type='date'" onfocusout="this.type='text'" placeholder="開始日">
+                  <input type="text" name="date-end" class="date" id="date-end-search" onfocus="this.type='date'" onfocusout="this.type='text'" placeholder="締め切り">
+                  <input type="text" id="comment-search" placeholder="備考">
+                  <input type="button" class="button" id="reset_search-btn" value="リセット">
+                  <input type="button" class="button special" id="search-btn" value="検索">
             </div>
-            <table id="list-table">
+            <table class="list-search-table" id="list-table">
                   <thead>
                         <tr>
                               <th>タスク</th>
-                              <th>開始日</th>
-                              <th>締め切り</th>
-                              <th>優先度</th>
+                              <th class="date-th">開始日</th>
+                              <th class="date-th">締め切り</th>
+                              <th class="priority-th">優先度</th>
                               <th>備考</th>
-                              <th>操作</th>
+                              <th class="operation-th">操作</th>
                         </tr>
                   </thead>
                   <tbody>
-                        <tr>
-                              <td>abc</td>
-                              <td>bcd</td>
-                        </tr>
-                        <tr>
-                              <td>a</td>
-                              <td>b</td>
-                        </tr>
                   </tbody>
             </table>
       </div>

@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from Todolist.models import Priority, Todo
+from . import util
 
 def index(request):
     todo = Todo.objects.all()
@@ -24,7 +25,7 @@ def regist(request):
     #     priority=priority,
     #     comment=comment
     # )
-    todo_all = Todo.objects.all()
+    todo_all = Todo.objects.filter(deleted=0)
     todo_arr = []
     for todo in todo_all:
         todo_str = ""
@@ -42,14 +43,18 @@ def regist(request):
 @csrf_exempt
 def search(request):
     task_search = request.POST.get("task_search")
-    todo_list = Todo.objects.filter(task__icontains=task_search)
-    for i in todo_list:
-        print(i)
+    todo_list = Todo.objects.filter(task__icontains=task_search, deleted=0)
+    todo_res = util.return_todo(todo_list)
+    return HttpResponse(todo_res)
 
-# delete todo
+# delete
+@csrf_exempt
 def delete(request):
-    pk = request.POST.get("pk")
+    pk = request.POST.get("task_pk")
     todo = Todo.objects.get(pk=pk)
     todo.deleted = 1
     todo.save()
     return HttpResponse(todo.id)
+
+def ppap():
+    return "ppap"

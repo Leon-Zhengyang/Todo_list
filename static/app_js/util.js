@@ -25,14 +25,126 @@ export function create_list_html(res){
                   todo_arr.forEach((e, i) => {
                         let set = e.split(":")
                         if(set[0] === "id"){
-                              td_html += "<td hidden>" +set[1] + "</td>"
-                        }
-                        if(set[0] !== "id" && set[0] !== "status" && set[0] !== "deleted"){
-                              td_html += "<td>" +set[1] + "</td>"
+                              td_html += "<td hidden id='todo-id'>" +set[1] + "</td>"
+                        }else if(set[0] === "task"){
+                              td_html += "<td id='todo-list-task'>" +set[1] + "</td>"
+                        }else if(set[0] === "date_start"){
+                              td_html += "<td id='todo-list-date_start'>" +set[1] + "</td>"
+                        }else if(set[0] === "date_limit"){
+                              td_html += "<td id='todo-list-date_limit'>" +set[1] + "</td>"
+                        }else if(set[0] === "priority"){
+                              td_html += "<td id='todo-list-priority'>" + set[1] + "</td>"
+                        }else if(set[0] === "comment"){
+                              td_html += "<td id='todo-list-comment'>" +set[1] + "</td>"
                         }
                   });
-                  tr_html += "<tr>" + td_html + "<td><button>削除</button></td>" + "</tr>"
+                  let td_delete = "<td id='td-operate'><button id='edit-btn'>編集</button> \
+                        <button id='delete-btn'>削除</button></td>"
+                  tr_html += "<tr>" + td_html + td_delete + "</tr>"
             }
       }
       va.list_table.innerHTML = tr_html
+}
+
+export function get_all_todo(){
+      const csrftoken = getCookie('csrftoken')
+      let data = new FormData()
+      data.append("task", va.task_regist.value)
+      data.append("priority", va.priority_regist.value)
+      data.append("date_start", va.date_start_regist.value)
+      data.append("date_end", va.date_end_regist.value)
+      data.append("comment", va.comment_regist.value)
+      const request = new XMLHttpRequest()
+      request.open("POST", "todo_regist/")
+      request.setRequestHeader("X-CSRFToken", csrftoken)
+      request.onreadystatechange = function(){
+            if(this.readyState === XMLHttpRequest.DONE && this.status === 200){
+                  let res = this.response
+                  create_list_html(res)
+                  todo_render_delete()
+            }
+      }
+      request.send(data)
+}
+
+export function todo_render_delete(){
+      document.querySelectorAll("#list-table tbody tr").forEach(e =>{
+            let delete_btn = e.querySelector("#delete-btn")
+            let edit_btn = e.querySelector("#edit-btn")
+            let id = e.querySelector("#todo-id").innerText
+            let todo_list_task = e.querySelector("#todo-list-task")
+            let todo_list_date_start = e.querySelector("#todo-list-date_start")
+            let todo_list_date_limit = e.querySelector("#todo-list-date_limit")
+            let todo_list_priority = e.querySelector("#todo-list-priority")
+            let todo_list_comment = e.querySelector("#todo-list-comment")
+            let td_operate = e.querySelector("#td-operate")
+            // 削除ボタンを押下する時
+            delete_btn.addEventListener("click", function(){
+                  const csrftoken = getCookie('csrftoken')
+                  let data = new FormData()
+                  data.append("task_pk", id)
+                  const request = new XMLHttpRequest()
+                  request.open("POST", "todo_delete/")
+                  request.setRequestHeader("X-CSRFToken", csrftoken)
+                  request.onreadystatechange = function(){
+                        if(this.readyState === XMLHttpRequest.DONE && this.status === 200){
+                              let res = this.response
+                              console.log(res)
+                              get_all_todo()
+                        }
+                  }
+                  request.send(data)
+            })
+            // 編集ボタンを押下する時
+            console.log(edit_btn.innerText)
+            let task_old = todo_list_task.innerHTML
+            let date_start_old = todo_list_date_start.innerHTML
+            let date_limit_old = todo_list_date_limit.innerHTML
+            let priority_old = todo_list_priority.innerHTML
+            let comment_old = todo_list_comment.innerHTML
+            let td_operate_old = td_operate.innerHTML
+            edit_btn.addEventListener("click", function(){
+                  if(e.querySelector("#edit-btn").innerText === "確定"){
+                        console.log(task_old)
+                        todo_list_task.innerHTML = task_old
+                        todo_list_date_start.innerHTML = date_start_old
+                        todo_list_date_limit.innerHTML = date_limit_old
+                        todo_list_priority.innerHTML = priority_old
+                        todo_list_comment.innerHTML = comment_old
+                        td_operate.innerHTML = td_operate_old
+                        e.querySelector("#edit-btn").innerText = "編集"
+                  }
+                  else if(e.querySelector("#edit-btn").innerText === "編集"){
+                        console.log("b")
+                        todo_list_task.innerHTML = "<td id='todo-list-task'>" +"<input type='text' value ="+ todo_list_task.innerText + "></td>"
+                        todo_list_date_start.innerHTML = "<td id='todo-list-date_start'>" +"<input type='text' value ="+ todo_list_date_start.innerText + "></td>"
+                        todo_list_date_limit.innerHTML = "<td id='todo-list-date_limit'>" +"<input type='text' value ="+ todo_list_date_limit.innerText + "></td>"
+                        let option_value1 = "value='1'"
+                        let option_value2 = "value='2'"
+                        let option_value3 = "value='3'"
+                        if(todo_list_priority.innerText === "高"){
+                              option_value1 += " selected"
+                        }else if(todo_list_priority.innerText === "中"){
+                              option_value2 += " selected"
+                        }else{
+                              option_value3 += " selected"
+                        }
+                        todo_list_priority.innerHTML = "<td><select id='todo-list-priority'><option " + option_value1 +">高</option><option " + option_value2 + ">中</option><option " + option_value3 + ">低</option></select></td>"
+                        todo_list_comment.innerHTML = "<td id='todo_list_comment'>" +"<input type='text' value ="+ todo_list_comment.innerText + "></td>"
+                        e.querySelector("#edit-btn").innerText = "確定"
+                  }
+                  // edit_btn.addEventListener("click", function(){
+                  //       todo_list_task.innerHTML = task_old
+                  //       todo_list_date_start.innerHTML = date_start_old
+                  //       todo_list_date_limit.innerHTML = date_limit_old
+                  //       todo_list_priority.innerHTML = priority_old
+                  //       todo_list_comment.innerHTML = comment_old
+                  //       td_operate.innerHTML = td_operate_old
+                  // })
+                  // confirm_btn.addEventListener("click", function(){
+
+                  // })
+            })
+            
+      })
 }

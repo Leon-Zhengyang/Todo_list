@@ -6,6 +6,7 @@
       <title>Todo List</title>
       <link rel="stylesheet" href="{% static 'app_css/index.css'%}">
       <script type="module" src="{% static 'app_js/index.js'%}"></script>
+      <script src="{% static 'app_js/edit_delete.js'%}"></script>
 </head>
 <body>
       <label><h2>Todo List</h2></label>
@@ -20,13 +21,14 @@
             <input type="text" name="date-end" class="date" id="date-end-regist" onfocus="this.type='date'" onfocusout="this.type='text'" placeholder="締め切り">
             <input type="text" id="comment-regist" placeholder="備考">
             <input type="button" class="button" id="reset_regist-btn" value="リセット">
-            <input type="button" class="button special" id="regist-btn" value="登録">
+            <input type="button" class="button regist" id="regist-btn" value="登録" disabled>
       </div>
       <div class="search">
             <label class="tab-label" id="tab-label-search" for="tab-search-list">検索一覧</label>
             <div class="search area">
                   <input type="text" class="task" id="search-task" placeholder="タスク">
                   <select class="priority" id="priority-search">
+                        <option selected value=""></option>
                         <option value="1">高</option>
                         <option value="2">中</option>
                         <option value="3">低</option>
@@ -35,7 +37,7 @@
                   <input type="text" name="date-end" class="date" id="date-end-search" onfocus="this.type='date'" onfocusout="this.type='text'" placeholder="締め切り">
                   <input type="text" id="comment-search" placeholder="備考">
                   <input type="button" class="button" id="reset_search-btn" value="リセット">
-                  <input type="button" class="button special" id="search-btn" value="検索">
+                  <input type="button" class="button search" id="search-btn" value="検索">
             </div>
             <table class="list-search-table" id="list-table">
                   <thead>

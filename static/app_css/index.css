@@ -40,7 +40,11 @@ body{
       background-color:#006FD5;
 }
 
-.button.special{
+.button:hover{
+      background-color:#3990e0;
+}
+
+.button.regist{
       background-color: #c7c7c7;
 }
 

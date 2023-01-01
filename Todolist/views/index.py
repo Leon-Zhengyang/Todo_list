@@ -1,13 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.db.models import Q
 
 from Todolist.models import Priority, Todo
 from . import util
 
 def index(request):
-    todo = Todo.objects.all()
-
     return render(request, "HTML/index.html")
 
 @csrf_exempt
@@ -18,34 +17,66 @@ def regist(request):
     date_end = request.POST.get("date_end")
     comment = request.POST.get("comment")
     priority = Priority.objects.get(pk=priority_id)
-    # Todo.objects.create(
-    #     task=task,
-    #     date_start=date_start,
-    #     date_limit=date_end,
-    #     priority=priority,
-    #     comment=comment
-    # )
+    Todo.objects.create(
+        task=task,
+        date_start=date_start,
+        date_limit=date_end,
+        priority=priority,
+        comment=comment
+    )
     todo_all = Todo.objects.filter(deleted=0)
-    todo_arr = []
-    for todo in todo_all:
-        todo_str = ""
-        todo_str += "id:" + str(todo.id) + ","
-        todo_str += "task:" + todo.task + ","
-        todo_str += "date_start:" + todo.date_start.strftime('%Y-%m-%d') + ","
-        todo_str += "date_limit:" + todo.date_limit.strftime('%Y-%m-%d') + ","
-        todo_str += "priority:" + todo.priority.label + ","
-        todo_str += "comment:" + todo.comment + ","
-        todo_str += "status:" + str(todo.status) + ","
-        todo_str += "deleted:" + str(todo.deleted)
-        todo_arr.append(todo_str + "//")
-    return HttpResponse(todo_arr)
+    todo_res = util.return_todo(todo_all)
+    return HttpResponse(todo_res)
+
+
+@csrf_exempt
+def edit(request):
+    time_diff = ' 15:00:00+00:00'
+    pk = request.POST.get("todo_id")
+    task = request.POST.get("task")
+    priority_id = request.POST.get("priority")
+    date_start = request.POST.get("date_start")
+    date_limit = request.POST.get("date_end")
+    comment = request.POST.get("comment")
+    todo = Todo.objects.get(pk=pk)
+    priority = Priority.objects.get(pk=priority_id)
+    todo.task = task
+    todo.date_start = date_start + time_diff
+    todo.date_limit = date_limit + time_diff
+    todo.priority = priority
+    todo.comment = comment
+    todo.save()
+    todo_all = Todo.objects.filter(deleted=0)
+    todo_res = util.return_todo(todo_all)
+    return HttpResponse(todo_res)    
 
 @csrf_exempt
 def search(request):
     task_search = request.POST.get("task_search")
-    todo_list = Todo.objects.filter(task__icontains=task_search, deleted=0)
+    priority_search = request.POST.get("priority_search")
+
+    date_start_search = request.POST.get("date_start_search")
+    date_end_search = request.POST.get("date_end_search")
+    comment_search = request.POST.get("comment_search")
+    print()
+    q_task = Q(task__icontains=task_search) if task_search else Q()
+    q_comment = Q(comment__icontains=comment_search) if comment_search else Q()
+    q_date_start = Q(date_start__gte=date_start_search) if date_start_search else Q()
+    q_date_limit = Q(date_limit__lte=date_end_search) if date_end_search else Q()
+    q_priority = Q(priority_id=priority_search) if priority_search else Q()
+    todo_list = Todo.objects.filter(
+        q_task & q_comment & q_date_start & q_date_limit & q_priority &
+        Q(deleted=0)
+    )
     todo_res = util.return_todo(todo_list)
     return HttpResponse(todo_res)
+
+
+@csrf_exempt
+def init_list(request):
+    todo_list = Todo.objects.filter(deleted=0)
+    todo_res = util.return_todo(todo_list)
+    return HttpResponse(todo_res)    
 
 # delete
 @csrf_exempt
@@ -56,5 +87,3 @@ def delete(request):
     todo.save()
     return HttpResponse(todo.id)
 
-def ppap():
-    return "ppap"

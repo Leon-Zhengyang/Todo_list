@@ -1,12 +1,17 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 
 from Todolist.models import Priority, Todo
 from . import util
 
 def index(request):
+    if not Priority.objects.all():
+        Priority.objects.create(label="高")
+        Priority.objects.create(label="中")
+        Priority.objects.create(label="低")
     return render(request, "HTML/index.html")
 
 @csrf_exempt

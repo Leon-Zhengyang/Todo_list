@@ -8,10 +8,10 @@ from Todolist.models import Priority, Todo
 from . import util
 
 def index(request):
-    if not Priority.objects.all():
-        Priority.objects.create(label="高")
-        Priority.objects.create(label="中")
-        Priority.objects.create(label="低")
+    # if not Priority.objects.all():
+    #     Priority.objects.create(label="高")
+    #     Priority.objects.create(label="中")
+    #     Priority.objects.create(label="低")
     return render(request, "HTML/index.html")
 
 @csrf_exempt

@@ -9,6 +9,7 @@ services:
       TZ: 'Asia/Tokyo'
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    container_name: postgres
 
   web:
     build: . 
@@ -19,6 +20,15 @@ services:
       - "8000:8000"
     depends_on:
       - db
+    container_name: django
+
+  nginx:
+    build: ./nginx
+    ports:
+            - 80:80
+    depends_on:
+            - web
+    container_name: nginx
 
 volumes:
   postgres_data:

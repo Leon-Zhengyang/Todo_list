@@ -139,7 +139,8 @@ function create_list_html(res){
                               }
                               td_html += "<td><select id='todo-list-priority' style='border:none' disabled><option " + option_value1 +">高</option><option " + option_value2 + ">中</option><option " + option_value3 + ">低</option></select></td>"
                         }else if(set[0] === "comment"){
-                              td_html += "<td><input id='todo-list-comment-" + key + "' type='text' style='border:none' value=" +set[1] + " readonly></td>"
+                              let com_fill = set[1].length>0?set[1]:'&nbsp;'
+                              td_html += "<td><input id='todo-list-comment-" + key + "' type='text' style='border:none' value=" + com_fill + " readonly></td>"
                               
                         }
                   });

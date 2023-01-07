@@ -7,12 +7,14 @@ from django.db.models import Q
 from Todolist.models import Priority, Todo
 from . import util
 
+
 def index(request):
-    # if not Priority.objects.all():
-    #     Priority.objects.create(label="高")
-    #     Priority.objects.create(label="中")
-    #     Priority.objects.create(label="低")
+    if not Priority.objects.all():
+        Priority.objects.create(label="高")
+        Priority.objects.create(label="中")
+        Priority.objects.create(label="低")
     return render(request, "HTML/index.html")
+
 
 @csrf_exempt
 def regist(request):
@@ -53,7 +55,8 @@ def edit(request):
     todo.save()
     todo_all = Todo.objects.filter(deleted=0)
     todo_res = util.return_todo(todo_all)
-    return HttpResponse(todo_res)    
+    return HttpResponse(todo_res)   
+
 
 @csrf_exempt
 def search(request):
@@ -63,7 +66,6 @@ def search(request):
     date_start_search = request.POST.get("date_start_search")
     date_end_search = request.POST.get("date_end_search")
     comment_search = request.POST.get("comment_search")
-    print()
     q_task = Q(task__icontains=task_search) if task_search else Q()
     q_comment = Q(comment__icontains=comment_search) if comment_search else Q()
     q_date_start = Q(date_start__gte=date_start_search) if date_start_search else Q()
@@ -81,7 +83,8 @@ def search(request):
 def init_list(request):
     todo_list = Todo.objects.filter(deleted=0)
     todo_res = util.return_todo(todo_list)
-    return HttpResponse(todo_res)    
+    return HttpResponse(todo_res)
+
 
 # delete
 @csrf_exempt
@@ -91,4 +94,3 @@ def delete(request):
     todo.deleted = 1
     todo.save()
     return HttpResponse(todo.id)
-

@@ -1,4 +1,3 @@
-from cProfile import label
 import pytest
 
 from Todolist.models import Todo, Priority

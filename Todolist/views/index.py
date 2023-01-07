@@ -6,6 +6,9 @@ from django.db.models import Q
 
 from Todolist.models import Priority, Todo
 from . import util
+from .validation import validate
+from . import error_msg
+from . import const
 
 
 def index(request):
@@ -23,22 +26,34 @@ def regist(request):
     date_start = request.POST.get("date_start")
     date_end = request.POST.get("date_end")
     comment = request.POST.get("comment")
-    priority = Priority.objects.get(pk=priority_id)
-    Todo.objects.create(
-        task=task,
-        date_start=date_start,
-        date_limit=date_end,
-        priority=priority,
-        comment=comment
-    )
-    todo_all = Todo.objects.filter(deleted=0)
-    todo_res = util.return_todo(todo_all)
-    return HttpResponse(todo_res)
-
+    result_start = validate.check_date_format(date_start)
+    result_end = validate.check_date_format(date_end)
+    result_task = validate.check_task_blank(task)
+    if not result_task:
+        todo_all = Todo.objects.filter(deleted=0)
+        todo_res = util.return_todo(todo_all)
+        todo_res += "error:" + error_msg.err_task
+        return HttpResponse(todo_res)
+    if not result_start or not result_end:
+        todo_all = Todo.objects.filter(deleted=0)
+        todo_res = util.return_todo(todo_all)
+        todo_res += "error:" + error_msg.err_date_format
+        return HttpResponse(todo_res) 
+    if result_start and result_end and result_task:
+        priority = Priority.objects.get(pk=priority_id)
+        Todo.objects.create(
+            task=task,
+            date_start=date_start,
+            date_limit=date_end,
+            priority=priority,
+            comment=comment
+        )
+        todo_all = Todo.objects.filter(deleted=0)
+        todo_res = util.return_todo(todo_all)
+    return HttpResponse(todo_res) 
 
 @csrf_exempt
 def edit(request):
-    time_diff = ' 15:00:00+00:00'
     pk = request.POST.get("todo_id")
     task = request.POST.get("task")
     priority_id = request.POST.get("priority")
@@ -48,8 +63,8 @@ def edit(request):
     todo = Todo.objects.get(pk=pk)
     priority = Priority.objects.get(pk=priority_id)
     todo.task = task
-    todo.date_start = date_start + time_diff
-    todo.date_limit = date_limit + time_diff
+    todo.date_start = date_start + const.time_diff
+    todo.date_limit = date_limit + const.time_diff
     todo.priority = priority
     todo.comment = comment
     todo.save()

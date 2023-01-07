@@ -12,6 +12,8 @@ export let comment_regist = document.getElementById("comment-regist")
 export let reset_regist_btn = document.getElementById("reset_regist-btn")
 // 登録ボタン
 export let regist_btn = document.getElementById("regist-btn")
+// エラーメッセージ
+export let error_msg = document.getElementById("error-msg")
 
 // タスク（検索）
 export let task_search = document.getElementById("search-task")

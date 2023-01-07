@@ -89,7 +89,9 @@ export function regist_todo(){
       request.onreadystatechange = function(){
             if(this.readyState === XMLHttpRequest.DONE && this.status === 200){
                   let res = this.response
-                  create_list_html(res)
+                  let res_arr = res.split("error:")
+                  create_list_html(res_arr[0])
+                  va.error_msg.innerText = res_arr[1]?res_arr[1]:""
                   // todo_render_delete()
             }
       }

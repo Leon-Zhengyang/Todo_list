@@ -100,6 +100,11 @@ body{
 #td-operate{
       text-align: center;  
 }
+
 #td-operate #delete-btn{
       margin-left: 8px;  
+}
+
+#error-msg{
+      color:red
 }

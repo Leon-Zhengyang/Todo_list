@@ -7,6 +7,7 @@ class validate:
             prog = re.compile(pattern)
             result = prog.match(date)
             return True if result else False
+
       @classmethod
       def check_task_blank(cls, task):
             return True if task.strip() else False

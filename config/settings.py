@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Todolist.apps.TodolistConfig',
-    "sslserver",
+    # "sslserver",
 ]
 
 MIDDLEWARE = [

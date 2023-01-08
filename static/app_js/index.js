@@ -5,10 +5,6 @@ window.addEventListener('DOMContentLoaded', () => {
       va.regist_btn.addEventListener("click", function(){
             util.regist_todo()
       })
-      let list_table1 = document.querySelectorAll("#list-table tbody tr")
-      for(let v of list_table1){
-            console.log(v.innerHTML)
-      }
 
       // reset button(regist)
       va.reset_regist_btn.addEventListener("click", function(){
@@ -43,7 +39,6 @@ window.addEventListener('DOMContentLoaded', () => {
       va.search_btn.addEventListener("click", function(){
             const csrftoken = util.getCookie('csrftoken')
             let data = new FormData()
-            console.log(va.priority_search.value)
             data.append("task_search", va.task_search.value)
             data.append("priority_search", va.priority_search.value)
             data.append("date_start_search", va.date_start_search.value)

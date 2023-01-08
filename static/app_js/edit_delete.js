@@ -38,7 +38,8 @@ function editRow(obj){
             request.onreadystatechange = function(){
                   if(this.readyState === XMLHttpRequest.DONE && this.status === 200){
                         let res = this.response
-                        create_list_html(res)
+                        let todo_json = JSON.parse(res)
+                        create_todo_html(todo_json)
                   }
             }
             request.send(data)
@@ -59,10 +60,8 @@ function editRow(obj){
 // todolist 削除ボタン
 function deleteRow(obj){
       let objtr = obj.parentNode.parentNode
-      console.log(objtr)
       let row_id = objtr.sectionRowIndex
       let id = objtr.querySelector("#todo-id-" + row_id).innerText
-      console.log(id)
       const csrftoken = getCookie('csrftoken')
       let data = new FormData()
       data.append("task_pk", id)
@@ -72,7 +71,6 @@ function deleteRow(obj){
       request.onreadystatechange = function(){
             if(this.readyState === XMLHttpRequest.DONE && this.status === 200){
                   let res = this.response
-                  console.log(res)
                   get_all_todo()
             }
       }
@@ -102,48 +100,39 @@ function get_all_todo(){
       request.onreadystatechange = function(){
             if(this.readyState === XMLHttpRequest.DONE && this.status === 200){
                   let res = this.response
-                  create_list_html(res)
+                  let todo_json = JSON.parse(res)
+                  create_todo_html(todo_json)
             }
       }
       request.send(data)
 }
 
-// todolist table描画
-function create_list_html(res){
-      let res_arr = res.split("//")
+// todo list 一覧描画
+function create_todo_html(todo_json){
       let tr_html = ""
-      for(let key in res_arr){
-            if(res_arr[key]){
-                  let todo_arr = res_arr[key].split(",")
+      for(let key in todo_json){
+            if(todo_json[key]){
                   let td_html = ""
-                  todo_arr.forEach(e => {
-                        let set = e.split(":")
-                        if(set[0] === "id"){
-                              td_html += "<td hidden id='todo-id-" + key + "'>" +set[1] + "</td>"
-                        }else if(set[0] === "task"){
-                              td_html += "<td><input id='todo-list-task-" + key + "' type='text' style='border:none' value=" + set[1] +" readonly></td>"
-                        }else if(set[0] === "date_start"){
-                              td_html += "<td><input id='todo-list-date_start-" + key + "' type='date' style='border:none' value=" +set[1] + " readonly></td>"
-                        }else if(set[0] === "date_limit"){
-                              td_html += "<td><input id='todo-list-date_limit-" + key + "' type='date' style='border:none' value=" +set[1] + " readonly></td>"
-                        }else if(set[0] === "priority"){
-                              let option_value1 = "value='1'"
-                              let option_value2 = "value='2'"
-                              let option_value3 = "value='3'"
-                              if(set[1] === "高"){
-                                    option_value1 += " selected"
-                              }else if(set[1] === "中"){
-                                    option_value2 += " selected"
-                              }else{
-                                    option_value3 += " selected"
-                              }
-                              td_html += "<td><select id='todo-list-priority' style='border:none' disabled><option " + option_value1 +">高</option><option " + option_value2 + ">中</option><option " + option_value3 + ">低</option></select></td>"
-                        }else if(set[0] === "comment"){
-                              let com_fill = set[1].length>0?set[1]:'&nbsp;'
-                              td_html += "<td><input id='todo-list-comment-" + key + "' type='text' style='border:none' value=" + com_fill + " readonly></td>"
-                              
+                        td_html += "<td hidden id='todo-id-" + key + "'>" +todo_json[key]["pk"] + "</td>"
+                        td_html += "<td><input id='todo-list-task-" + key + "' type='text' style='border:none' value=" + todo_json[key]["fields"]["task"] +" readonly></td>"
+                        let date_start_new = todo_json[key]["fields"]["date_start"].split("T")[0]
+                        let date_limit_new = todo_json[key]["fields"]["date_limit"].split("T")[0]
+                        td_html += "<td><input id='todo-list-date_start-" + key + "' type='date' style='border:none' value=" + date_start_new + " readonly></td>"
+                        td_html += "<td><input id='todo-list-date_limit-" + key + "' type='date' style='border:none' value=" + date_limit_new + " readonly></td>"
+                        let option_value1 = "value='1'"
+                        let option_value2 = "value='2'"
+                        let option_value3 = "value='3'"
+                        if(todo_json[key]["fields"]["priority"] == 1){
+                              option_value1 += " selected"
+                        }else if(todo_json[key]["fields"]["priority"] == 2){
+                              option_value2 += " selected"
+                        }else{
+                              option_value3 += " selected"
                         }
-                  });
+                        td_html += "<td><select id='todo-list-priority' style='border:none' disabled><option " + option_value1 +">高</option><option " + option_value2 + ">中</option><option " + option_value3 + ">低</option></select></td>"
+                        let com_fill = todo_json[key]["fields"]["comment"].length>0?todo_json[key]["fields"]["comment"]:'&nbsp;'
+                        td_html += "<td><input id='todo-list-comment-" + key + "' type='text' style='border:none' value=" + com_fill + " readonly></td>"    
+
                   let td_delete = "<td id='td-operate'><input type='button' id='edit-btn-" + key + "' value='編集' onclick='editRow(this)'> \
                   <input type='button' id='delete-btn-" + key + "' value='削除' onclick='deleteRow(this)'></td>"
                   tr_html += "<tr>" + td_html + td_delete + "</tr>"

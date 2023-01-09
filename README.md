@@ -13,3 +13,11 @@ Add **Dockerfile**、**docker-compose.yml**、**requirements.txt** files<br>
 Run `docker-compose up --build -d` to build containers<br>
 Run `docker-compose run --rm web python manage.py makemigrations`<br>
 Run `docker-compose run --rm web python manage.py migrate`<br>
+
+
+# tests
+tox:
+    docker-compose run --rm web tox
+
+# run pytest
+docker-compose run web pytest .

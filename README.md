@@ -1,4 +1,4 @@
-# Todo list app(Single Page Application)
+# Todo list app
 `#Docker`、`#Postgres`、`#Django`、`#Python`、`#Pytest`、`#Javascript`、`#HTML`、`#CSS`<br>
 ### overview:
 Todolist app whih basic CRUD funcions by using Django framework

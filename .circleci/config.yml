@@ -23,8 +23,9 @@ jobs:
             sudo apt install docker.io
             
       - run:
-          name: Install Docker
+          name: start Docker
           command: |
+            sudo bash -c "echo \"limit nofile 262144 262144\" >> /etc/init/docker.conf"
             sudo service docker start
 
       - run:

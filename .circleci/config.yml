@@ -34,7 +34,7 @@ jobs:
       - run:
           name: Start all services declared in docker-compose.yml
           command: |
-            docker-compose up --build -d
+            docker-compose up
 
       - run:
           name: Run tests

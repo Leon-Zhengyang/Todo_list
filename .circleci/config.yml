@@ -38,7 +38,9 @@ jobs:
 
       - run:
           name: Run tests
-          command: docker-compose run web pytest .
+          command: |
+            docker ps -a
+            docker-compose run web pytest .
 
 
 workflows:

@@ -25,7 +25,7 @@ jobs:
       - run:
           name: start Docker
           command: |
-            sudo bash -c "echo \"limit nofile 262144 262144\" >> /etc/init/docker.conf"
+            ulimit -n 65536 in /etc/init.d/docker
             sudo service docker start
 
       - run:

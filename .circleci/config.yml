@@ -22,11 +22,11 @@ jobs:
             sudo apt install containerd
             sudo apt install docker.io
             
-      - run:
-          name: start Docker
-          command: |
-            ulimit -n 65536 in /etc/init.d/docker
-            sudo service docker start
+      # - run:
+      #     name: start Docker
+      #     command: |
+      #       ulimit -n 65536 in /etc/init.d/docker
+      #       sudo service docker start
 
       - run:
           name: Install Docker Compose

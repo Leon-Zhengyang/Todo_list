@@ -1,13 +1,11 @@
 version: 2.1
 
 orbs:
- 
   python: circleci/python@1.5.0
 
 
 jobs:
   build-and-test: # This is the name of the job, feel free to change it to better match what you're trying to do!
-  
     docker:
       - image: cimg/python:3.10.2
  
@@ -18,8 +16,20 @@ jobs:
           # app-dir: ~/project/package-directory/  # If you're requirements.txt isn't in the root directory.
           # pip-dependency-file: test-requirements.txt  # if you have a different name for your requirements file, maybe one that combines your runtime and test requirements.
       - run:
+          name: Install Docker Compose
+          environment:
+            COMPOSE_VERSION: '1.29.2'
+          command: |
+            curl -L "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o ~/docker-compose
+            chmod +x ~/docker-compose
+            sudo mv ~/docker-compose /usr/local/bin/docker-compose
+      
+      - run:
+          name: Start all services declared in docker-compose.yml
+          command: docker-compose up -d
+
+      - run:
           name: Run tests
-          # This assumes pytest is installed via the install-package step above
           command: docker-compose run web pytest .
 
 

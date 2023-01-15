@@ -21,7 +21,6 @@ jobs:
             sudo apt-get update
             sudo apt install containerd
             sudo apt install docker.io
-            sudo systemctl status docker
       
       - run:
           name: Install Docker Compose

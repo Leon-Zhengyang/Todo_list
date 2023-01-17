@@ -23,7 +23,9 @@ jobs:
           POSTGRES_PASSWORD: ""
 
     steps:
-      - setup
+      - checkout
+      - python/install-packages:
+          pkg-manager: pip
       - run:
           name: migrate
           command: python manage.py migrate

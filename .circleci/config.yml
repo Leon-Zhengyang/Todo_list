@@ -28,7 +28,10 @@ jobs:
           pkg-manager: pip
       - run:
           name: migrate
-          command: python manage.py migrate
+          command: |
+            pip install --upgrade pip
+            pip install -r requirements.txt
+            python manage.py migrate
       - run:
           name: run test
           command: python manage.py pytest .

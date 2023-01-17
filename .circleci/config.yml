@@ -9,7 +9,9 @@ jobs:
     docker:
       - image: circleci/python:3.6.4
     steps:
-      - setup
+      - checkout
+      - python/install-packages:
+          pkg-manager: pip
   test:
     docker:
       - image: circleci/python:3.6.4

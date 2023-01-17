@@ -31,7 +31,7 @@ jobs:
 
 
 workflows:
-  test_and_deploy:
+  sample:
     jobs:
       - build
       - test:

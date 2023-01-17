@@ -20,3 +20,7 @@ from Todolist.models import Todo, Priority
 def test_2():
       assert Todo.objects.count() == 3
 
+@pytest.mark.django_db
+def test_3():
+      assert Todo.objects.count() == 5
+

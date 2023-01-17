@@ -5,50 +5,30 @@ orbs:
 
 
 jobs:
-  build-and-test: # This is the name of the job, feel free to change it to better match what you're trying to do!
+  build: # This is the name of the job, feel free to change it to better match what you're trying to do!
     docker:
-      - image: cimg/python:3.10.2
- 
+      - image: circleci/python:3.6.4
+      - image: circleci/postgres:11.6        
+        name: "db"
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: myapp_test
+          POSTGRES_PASSWORD: ""
+
     steps:
-      - checkout
-      - python/install-packages:
-          pkg-manager: pip
-          # app-dir: ~/project/package-directory/  # If you're requirements.txt isn't in the root directory.
-          # pip-dependency-file: test-requirements.txt  # if you have a different name for your requirements file, maybe one that combines your runtime and test requirements.
+      - setup
       - run:
-          name: Install Docker
-          command: |
-            sudo apt-get update
-            sudo apt install containerd
-            sudo apt install docker.io
-            
-      # - run:
-      #     name: start Docker
-      #     command: |
-      #       ulimit -n 65536 in /etc/init.d/docker
-      #       sudo service docker start
-
+          name: migrate
+          command: python manage.py migrate
       - run:
-          name: Install Docker Compose
-          environment:
-            COMPOSE_VERSION: '1.29.2'
-          command: |
-            curl -L "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o ~/docker-compose
-            chmod +x ~/docker-compose
-            sudo mv ~/docker-compose /usr/local/bin/docker-compose
-      
-      - run:
-          name: Start all services declared in docker-compose.yml
-          command: |
-            docker-compose build -f ./docker-compose.yml
-
-      - run:
-          name: Run tests
-          command: |
-            docker-compose run pytest .
+          name: run test
+          command: python manage.py pytest .
 
 
 workflows:
-  sample: # This is the name of the workflow, feel free to change it to better match your workflow.
+  test_and_deploy:
     jobs:
-      - build-and-test
+      - build
+      - test:
+          requires:
+            - build

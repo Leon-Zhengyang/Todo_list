@@ -5,7 +5,12 @@ orbs:
 
 
 jobs:
-  build: # This is the name of the job, feel free to change it to better match what you're trying to do!
+  build:
+    docker:
+      - image: circleci/python:3.6.4
+    steps:
+      - setup
+  test:
     docker:
       - image: circleci/python:3.6.4
       - image: circleci/postgres:11.6        

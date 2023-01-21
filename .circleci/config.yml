@@ -3,7 +3,7 @@ version: 2
 jobs:
   build-and-test:
     machine:
-      image: circleci/classic:edge
+      image: circleci/classic:latest
     steps:
     # Djangoのテストを実行
       - checkout

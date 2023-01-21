@@ -10,6 +10,7 @@ jobs:
       - run:
           name: make env file
           command: |
+            echo ls -a
             echo SECRET_KEY=${SECRET_KEY} >> src/.env
             echo POSTGRES_USER=${POSTGRES_USER} >> src/.env
             echo POSTGRES_DB=${POSTGRES_DB} >> src/.env

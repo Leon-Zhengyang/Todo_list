@@ -18,5 +18,5 @@ from Todolist.models import Todo, Priority
 
 @pytest.mark.django_db
 def test_2():
-      assert Todo.objects.count() == 3
+      assert Todo.objects.count() == 10
 

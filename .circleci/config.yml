@@ -20,9 +20,9 @@ jobs:
       - run:
           name: docker ps
           command: docker ps
-      - run:
-          name: collectstatic
-          command: docker-compose run web python ./manage.py collectstatic
+      # - run:
+      #     name: collectstatic
+      #     command: docker-compose run web python ./manage.py collectstatic
       - run:
           name: migrate
           command: docker-compose run web python ./manage.py migrate

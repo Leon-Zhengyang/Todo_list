@@ -10,11 +10,10 @@ jobs:
       - run:
           name: make env file
           command: |
-            echo ls -a
-            echo SECRET_KEY=${SECRET_KEY} >> src/.env
-            echo POSTGRES_USER=${POSTGRES_USER} >> src/.env
-            echo POSTGRES_DB=${POSTGRES_DB} >> src/.env
-            echo POSTGRES_PASSWORD=${POSTGRES_PASSWORD} >> src/.env
+            echo SECRET_KEY=${SECRET_KEY} >> .env
+            echo POSTGRES_USER=${POSTGRES_USER} >> .env
+            echo POSTGRES_DB=${POSTGRES_DB} >> .env
+            echo POSTGRES_PASSWORD=${POSTGRES_PASSWORD} >> .env
       - run:
           name: docker-compose up
           command: docker-compose up -d

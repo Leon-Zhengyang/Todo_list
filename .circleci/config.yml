@@ -3,7 +3,7 @@ version: 2
 jobs:
   build-and-test:
     machine:
-      image: circleci/classic:latest
+      image: ubuntu-2004:2022.10.1
     steps:
     # Djangoのテストを実行
       - checkout

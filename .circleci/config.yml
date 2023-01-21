@@ -1,46 +1,42 @@
-version: 2.1
-
-orbs:
-  python: circleci/python@1.5.0
-
+version: 2
 
 jobs:
-  build:
-    docker:
-      - image: circleci/python:3.6.4
+  build-and-test:
+    machine:
+      image: circleci/classic:edge
     steps:
+    # Djangoのテストを実行
       - checkout
-      - python/install-packages:
-          pkg-manager: pip
-  test:
-    docker:
-      - image: circleci/python:3.6.4
-      - image: circleci/postgres:11.6        
-        name: "db"
-        environment:
-          POSTGRES_USER: postgres
-          POSTGRES_DB: myapp_test
-          POSTGRES_PASSWORD: ""
-
-    steps:
-      - checkout
-      - python/install-packages:
-          pkg-manager: pip
+      - run:
+          name: make env file
+          command: |
+            echo SECRET_KEY=${SECRET_KEY} >> src/.env
+            echo POSTGRES_USER=${POSTGRES_USER} >> src/.env
+            echo POSTGRES_DB=${POSTGRES_DB} >> src/.env
+            echo POSTGRES_PASSWORD=${POSTGRES_PASSWORD} >> src/.env
+      - run:
+          name: docker-compose up
+          command: docker-compose up -d
+      - run:
+          name: docker ps
+          command: docker ps
+      - run:
+          name: collectstatic
+          command: docker-compose run python ./manage.py collectstatic
       - run:
           name: migrate
-          command: |
-            pip install --upgrade pip
-            pip install -r requirements.txt
-            python manage.py migrate
+          command: docker-compose run python ./manage.py migrate
       - run:
-          name: run test
-          command: python manage.py pytest .
+          name: test
+          command: docker-compose run python ./manage.py test
+      - run:
+          name: docker-compose down
+          command: docker-compose down
 
 
+# テストが成功した場合のみ、deployを実行するようにします。
 workflows:
-  sample:
+  version: 2
+  build-and-test:
     jobs:
-      - build
-      - test:
-          requires:
-            - build
+      - build-and-test

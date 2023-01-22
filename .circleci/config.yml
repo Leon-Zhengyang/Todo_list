@@ -34,7 +34,6 @@ jobs:
           command: docker-compose down
 
 
-# テストが成功した場合のみ、deployを実行するようにします。
 workflows:
   version: 2
   build-and-test:

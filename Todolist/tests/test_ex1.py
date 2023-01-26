@@ -2,9 +2,8 @@ import pytest
 
 from Todolist.models import Todo, Priority
 
-
-@pytest.mark.django_db
-def test_1():
+@pytest.fixture
+def create_todo():
       Priority.objects.create(label="高")
       priority_id = Priority.objects.get(label="高")
       todo = Todo(
@@ -14,10 +13,12 @@ def test_1():
             priority=priority_id,
             comment="just a test"     
       )
-      todo1 = todo
-      todo1.save()
-      todo2 = todo
-      todo2.save()
+      todo.save()
+
+@pytest.mark.django_db
+def test_1(create_todo):
+      create_todo
+      create_todo
       assert Todo.objects.count() == 2
 
 @pytest.mark.django_db

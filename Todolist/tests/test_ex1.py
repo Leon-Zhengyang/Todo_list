@@ -16,8 +16,8 @@ def create_todo():
 
 @pytest.mark.django_db
 def test_1(create_todo):
-      create_todo
-      create_todo
+      create_todo()
+      create_todo()
       assert Todo.objects.count() == 2
 
 @pytest.mark.django_db

@@ -7,14 +7,14 @@ faker = FakerFactory.create()
 
 class PriorityFactory(factory.django.DjangoModelFactory):
       class Meta:
-            model = "Todolist.Priority"
+            model = Priority
 
       label = '高'
 
 
 class TodoFactory(factory.django.DjangoModelFactory):
       class Meta:
-            model = "Todolist.Todo"
+            model = Todo
 
       task = 'just a test task'
       date_start = '1991-03-06'

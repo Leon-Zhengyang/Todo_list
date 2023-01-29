@@ -5,8 +5,12 @@ from Todolist.models import Todo, Priority
 
 def test_todo_factory(todo_factory, priority_factory):
       a = todo_factory
-      b = priority_factory
-      a.priotity = b
+      high = priority_factory(label='高')
+      priority_factory(label='中')
+      priority_factory(label='低')
+      a.priotity = high
+      count = priority_factory.count()
+      assert count == 3
       assert a.priotity.label == "test"
       assert a.comment == "test"
 

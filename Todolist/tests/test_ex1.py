@@ -6,6 +6,7 @@ from Todolist.models import Todo, Priority
 def test_todo_factory(db, todo_factory, priority_factory):
 
       high = priority_factory.create(label='高')
+      assert high.label == "高"
       priority_factory.create(label='中')
       low = priority_factory.create(label='低')
       a = todo_factory

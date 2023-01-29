@@ -8,13 +8,14 @@ def test_todo_factory(db, todo_factory, priority_factory):
       high = priority_factory.create(label='高')
       priority_factory.create(label='中')
       low = priority_factory.create(label='低')
-      a = todo_factory
+      a = todo_factory.create(task="ppap", priority=low)
       b = todo_factory
       a.priority = high
       b.priority = low
       count = Priority.objects.all().count()
       assert count == 3
-      assert a.task == "高"
+      assert a.task == "ppap"
+      assert a.priority.label == "高"
       assert b.priotity == "低"
       
       assert a.comment == "test"

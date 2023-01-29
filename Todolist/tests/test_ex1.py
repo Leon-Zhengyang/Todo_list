@@ -3,7 +3,7 @@ import pytest
 from Todolist.models import Todo, Priority
 # from Todolist.tests.factories import PriorityFactory, TodoFactory
 
-def test_todo_factory(todo_factory, priority_factory):
+def test_todo_factory(db, todo_factory, priority_factory):
       a = todo_factory
       high = priority_factory.create(label='高')
       priority_factory.create(label='中')

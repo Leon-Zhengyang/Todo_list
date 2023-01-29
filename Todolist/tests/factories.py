@@ -2,8 +2,6 @@ import factory
 from Todolist.models import Todo, Priority
 from faker import Factory as FakerFactory
 
-from pytest_factoryboy import register
-
 
 faker = FakerFactory.create()
 
@@ -22,6 +20,3 @@ class TodoFactory(factory.django.DjangoModelFactory):
       date_limit = '1992-03-07'
       priotity = factory.SubFactory(PriorityFactory)
       comment = 'just a test comment'
-
-register(PriorityFactory)
-register(TodoFactory)

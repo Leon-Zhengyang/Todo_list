@@ -1,7 +1,7 @@
 import pytest
 
 from Todolist.models import Todo, Priority
-from factories import PriorityFactory, TodoFactory
+from Todolist.tests.factories import PriorityFactory, TodoFactory
 
 def test_todo_factory(todo_factory):
       a = todo_factory

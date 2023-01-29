@@ -15,8 +15,8 @@ def test_todo_factory(db, todo_factory, priority_factory):
       assert count == 3
       assert count_todo == 2
       assert a.task == "ppap"
-      assert a.priotity.label == "高"
-      assert b.priotity.label == "低"
+      assert a.priority.label == "高"
+      assert b.priority.label == "低"
       
       assert a.comment == "test"
 

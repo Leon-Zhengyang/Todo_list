@@ -5,7 +5,7 @@ from Todolist.models import Todo, Priority
 
 def test_todo_factory(todo_factory):
       a = todo_factory
-      assert a.priotity == "test"
+      assert a.priotity.label == "test"
       assert a.comment == "test"
 
 @pytest.fixture

@@ -1,6 +1,12 @@
 import pytest
 
 from Todolist.models import Todo, Priority
+from factories import PriorityFactory, TodoFactory
+
+def test_todo_factory(todo_factory):
+      a = todo_factory
+      assert a.task == "test"
+      assert a.comment == "test"
 
 @pytest.fixture
 def create_todo():

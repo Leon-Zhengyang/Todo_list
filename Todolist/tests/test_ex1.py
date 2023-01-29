@@ -6,7 +6,6 @@ from Todolist.models import Todo, Priority
 def test_todo_factory(db, todo_factory, priority_factory):
 
       high = priority_factory.create(label='高')
-      assert high.label == "高"
       priority_factory.create(label='中')
       low = priority_factory.create(label='低')
       a = todo_factory
@@ -14,9 +13,10 @@ def test_todo_factory(db, todo_factory, priority_factory):
       a.priority = high
       b.priority = low
       count = Priority.objects.all().count()
-      # assert a.priotity.label == "高"
-      # assert b.priotity.label == "低"
-      assert count == 2
+      assert count == 3
+      assert a.task == "高"
+      assert b.priotity == "低"
+      
       assert a.comment == "test"
 
 @pytest.fixture

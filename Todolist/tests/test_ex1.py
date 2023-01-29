@@ -5,10 +5,10 @@ from Todolist.models import Todo, Priority
 
 def test_todo_factory(db, todo_factory, priority_factory):
       a = todo_factory
-      high = priority_factory.create(label='高')
+      priority_factory.create(label='高')
       priority_factory.create(label='中')
-      priority_factory.create(label='低')
-      a.priotity = high
+      low = priority_factory.create(label='低')
+      a.priotity = low
       assert a.priotity.label == "test"
       assert a.comment == "test"
 

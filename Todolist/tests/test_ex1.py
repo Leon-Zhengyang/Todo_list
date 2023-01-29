@@ -8,8 +8,8 @@ def test_todo_factory(db, todo_factory, priority_factory):
       priority_factory.create(label='高')
       priority_factory.create(label='中')
       low = priority_factory.create(label='低')
-      a = todo_factory(priority=low)
-      todo_factory(priority=low)
+      a = todo_factory.create(priority=low)
+      todo_factory.create(priority=low)
       # a.priority = low
       count = Todo.objects.all().count()
       assert count == 2

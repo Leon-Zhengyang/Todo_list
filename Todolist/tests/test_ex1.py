@@ -4,8 +4,8 @@ from Todolist.models import Todo, Priority
 # from Todolist.tests.factories import PriorityFactory, TodoFactory
 
 def test_todo_factory(db, todo_factory, priority_factory):
-      a = todo_factory
-      todo_factory
+      a = todo_factory.create()
+      todo_factory.create()
       priority_factory.create(label='高')
       priority_factory.create(label='中')
       low = priority_factory.create(label='低')

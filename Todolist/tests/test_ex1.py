@@ -9,7 +9,7 @@ def test_todo_factory(db, todo_factory, priority_factory):
       priority_factory.create(label='中')
       priority_factory.create(label='低')
       a.priotity = high
-      count = priority_factory.count()
+      count = priority_factory.objects.count()
       assert count == 3
       assert a.priotity.label == "test"
       assert a.comment == "test"

@@ -19,5 +19,5 @@ class TodoFactory(factory.django.DjangoModelFactory):
       task = 'just a test task'
       date_start = '1991-03-06'
       date_limit = '1992-03-07'
-      priotity = factory.SubFactory(PriorityFactory)
+      priority = factory.SubFactory(PriorityFactory)
       comment = 'just a test comment'

@@ -8,6 +8,7 @@ faker = FakerFactory.create()
 class PriorityFactory(factory.django.DjangoModelFactory):
       class Meta:
             model = Priority
+
       label = '高'
 
 

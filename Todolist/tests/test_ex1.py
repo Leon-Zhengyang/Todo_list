@@ -3,8 +3,10 @@ import pytest
 from Todolist.models import Todo, Priority
 # from Todolist.tests.factories import PriorityFactory, TodoFactory
 
-def test_todo_factory(todo_factory):
+def test_todo_factory(todo_factory, priority_factory):
       a = todo_factory
+      b = priority_factory
+      a.priotity = b
       assert a.priotity.label == "test"
       assert a.comment == "test"
 

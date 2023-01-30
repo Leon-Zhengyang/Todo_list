@@ -1,8 +1,7 @@
-from cProfile import label
 import pytest
 
 from Todolist.models import Todo, Priority
-# from Todolist.tests.factories import PriorityFactory, TodoFactory
+from Todolist.views import index
 
 @pytest.fixture
 def priority_todo_factory(db, todo_factory, priority_factory):
@@ -90,5 +89,8 @@ def test_todo_delete(db, todo_factory, priority_factory):
             priority=high,
             comment="just a comment"
       )
-      todo = Todo.objects.get(pk=todo.id).delete()
-      assert todo.deleted == 1
+      count_before = Todo.objects.all().count()
+      assert count_before == 4
+      Todo.objects.get(pk=todo.id).delete()
+      count_after = Todo.objects.all().count()
+      assert count_after == 3

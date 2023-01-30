@@ -90,7 +90,7 @@ def test_todo_delete(db, todo_factory, priority_factory):
             comment="just a comment"
       )
       count_before = Todo.objects.all().count()
-      assert count_before == 4
+      assert count_before == 1
       Todo.objects.get(pk=todo.id).delete()
       count_after = Todo.objects.all().count()
-      assert count_after == 3
+      assert count_after == 0

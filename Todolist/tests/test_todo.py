@@ -90,5 +90,5 @@ def test_todo_delete(db, todo_factory, priority_factory):
             priority=high,
             comment="just a comment"
       )
-      todo = Todo.objects.delete(pk=todo.id)
+      todo = Todo.objects.get(pk=todo.id).delete()
       assert todo.deleted == 1

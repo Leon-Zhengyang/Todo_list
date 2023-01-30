@@ -1,9 +1,5 @@
 import factory
 from Todolist.models import Todo, Priority
-from faker import Factory as FakerFactory
-
-
-faker = FakerFactory.create()
 
 class PriorityFactory(factory.django.DjangoModelFactory):
       class Meta:
@@ -16,8 +12,8 @@ class TodoFactory(factory.django.DjangoModelFactory):
       class Meta:
             model = Todo
 
-      task = 'just a test task'
-      date_start = '1991-03-06'
-      date_limit = '1992-03-07'
+      task = factory.Sequence(lambda n: u'タスク %d' % n)
+      date_start = '1900-01-01'
+      date_limit = '2025-12-31'
       priority = factory.SubFactory(PriorityFactory)
-      comment = 'just a test comment'
+      comment = factory.Sequence(lambda n: u'コメント %d' % n)

@@ -99,8 +99,8 @@ def search(request):
         q_task & q_comment & q_date_start & q_date_limit & q_priority &
         Q(deleted=0)
     )
-    todo_json = serializers.serialize("json", todo_list)
     
+    todo_json = serializers.serialize("json", todo_list)
     return HttpResponse(todo_json, content_type="text/json-comment-filtered")   
 
 

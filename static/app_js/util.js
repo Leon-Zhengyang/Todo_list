@@ -63,25 +63,25 @@ export function create_html(todo_json){
       for(let key in todo_json){
             if(todo_json[key]){
                   let td_html = ""
-                        td_html += "<td hidden id='todo-id-" + key + "'>" +todo_json[key]["pk"] + "</td>"
-                        td_html += "<td><input id='todo-list-task-" + key + "' type='text' style='border:none' value=" + todo_json[key]["fields"]["task"] +" readonly></td>"
-                        let date_start_new = todo_json[key]["fields"]["date_start"].split("T")[0]
-                        let date_limit_new = todo_json[key]["fields"]["date_limit"].split("T")[0]
-                        td_html += "<td><input id='todo-list-date_start-" + key + "' type='date' style='border:none' value=" + date_start_new + " readonly></td>"
-                        td_html += "<td><input id='todo-list-date_limit-" + key + "' type='date' style='border:none' value=" + date_limit_new + " readonly></td>"
-                        let option_value1 = "value='1'"
-                        let option_value2 = "value='2'"
-                        let option_value3 = "value='3'"
-                        if(todo_json[key]["fields"]["priority"] == 1){
-                              option_value1 += " selected"
-                        }else if(todo_json[key]["fields"]["priority"] == 2){
-                              option_value2 += " selected"
-                        }else{
-                              option_value3 += " selected"
-                        }
-                        td_html += "<td><select id='todo-list-priority' style='border:none' disabled><option " + option_value1 +">高</option><option " + option_value2 + ">中</option><option " + option_value3 + ">低</option></select></td>"
-                        let com_fill = todo_json[key]["fields"]["comment"].length>0?todo_json[key]["fields"]["comment"]:'&nbsp;'
-                        td_html += "<td><input id='todo-list-comment-" + key + "' type='text' style='border:none' value=" + com_fill + " readonly></td>"    
+                  td_html += "<td hidden id='todo-id-" + key + "'>" +todo_json[key]["pk"] + "</td>"
+                  td_html += "<td><input id='todo-list-task-" + key + "' type='text' style='border:none' value=" + todo_json[key]["fields"]["task"] +" readonly></td>"
+                  let date_start_new = todo_json[key]["fields"]["date_start"].split("T")[0]
+                  let date_limit_new = todo_json[key]["fields"]["date_limit"].split("T")[0]
+                  td_html += "<td><input id='todo-list-date_start-" + key + "' type='date' style='border:none' value=" + date_start_new + " readonly></td>"
+                  td_html += "<td><input id='todo-list-date_limit-" + key + "' type='date' style='border:none' value=" + date_limit_new + " readonly></td>"
+                  let option_value1 = "value='1'"
+                  let option_value2 = "value='2'"
+                  let option_value3 = "value='3'"
+                  if(todo_json[key]["fields"]["priority"] == 1){
+                        option_value1 += " selected"
+                  }else if(todo_json[key]["fields"]["priority"] == 2){
+                        option_value2 += " selected"
+                  }else{
+                        option_value3 += " selected"
+                  }
+                  td_html += "<td><select id='todo-list-priority' style='border:none' disabled><option " + option_value1 +">高</option><option " + option_value2 + ">中</option><option " + option_value3 + ">低</option></select></td>"
+                  let com_fill = todo_json[key]["fields"]["comment"].length>0?todo_json[key]["fields"]["comment"]:'&nbsp;'
+                  td_html += "<td><input id='todo-list-comment-" + key + "' type='text' style='border:none' value=" + com_fill + " readonly></td>"    
 
                   let td_delete = "<td id='td-operate'><input type='button' id='edit-btn-" + key + "' value='編集' onclick='editRow(this)'> \
                   <input type='button' id='delete-btn-" + key + "' value='削除' onclick='deleteRow(this)'></td>"

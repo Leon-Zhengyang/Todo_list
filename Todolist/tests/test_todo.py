@@ -1,7 +1,6 @@
 import pytest
 
 from Todolist.models import Todo, Priority
-from Todolist.views import index
 
 @pytest.fixture
 def priority_todo_factory(db, todo_factory, priority_factory):

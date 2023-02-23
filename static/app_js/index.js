@@ -50,7 +50,8 @@ window.addEventListener('DOMContentLoaded', () => {
             request.onreadystatechange = function(){
                   if(this.readyState === XMLHttpRequest.DONE && this.status === 200){
                         let res = this.response
-                        util.create_list_html(res)
+                        let todo_json = JSON.parse(res)
+                        util.create_html(todo_json)
                   }
             }
             request.send(data)

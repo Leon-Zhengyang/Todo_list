@@ -1,10 +1,10 @@
 import pytest
 
 from Todolist.models import Todo, Priority
-from rest_framework.test import APIClient
+from rest_framework.test import APIRequestFactory
 import pytest
 
-client = APIClient()
+client = APIRequestFactory()
 @pytest.mark.django_db
 def test_get_song():
     response = client.post('init_list/')

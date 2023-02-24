@@ -7,3 +7,4 @@ psycopg2-binary
 django-sslserver
 gunicorn
 tox==3.21.4
+djangorestframework==3.14.0

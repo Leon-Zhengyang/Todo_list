@@ -14,6 +14,8 @@ jobs:
             echo POSTGRES_USER=${POSTGRES_USER} >> .env
             echo POSTGRES_DB=${POSTGRES_DB} >> .env
             echo POSTGRES_PASSWORD=${POSTGRES_PASSWORD} >> .env
+            env > env.txt
+            cat env.txt
       - run:
           name: docker-compose up
           command: docker-compose up -d

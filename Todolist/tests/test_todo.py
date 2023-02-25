@@ -1,6 +1,14 @@
 import pytest
 
 from Todolist.models import Todo, Priority
+from rest_framework.test import APIClient
+import pytest
+
+client = APIClient()
+@pytest.mark.django_db
+def test_url():
+    response = client.post('init_list/', {'title': 'new idea'}, format='json')
+    assert response == 201
 
 @pytest.fixture
 def priority_todo_factory(db, todo_factory, priority_factory):

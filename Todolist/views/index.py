@@ -109,7 +109,7 @@ def init_list(request):
     # return all todo lists for first time 
     todo_list = Todo.objects.filter(deleted=0)
     todo_json = serializers.serialize("json", todo_list)
-    return HttpResponse(todo_json, status=200, content_type="text/json-comment-filtered") 
+    return HttpResponse(todo_json, status_code=200, content_type="text/json-comment-filtered") 
 
 
 # delete

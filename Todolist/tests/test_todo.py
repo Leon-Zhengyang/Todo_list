@@ -9,7 +9,7 @@ client = APIClient()
 def test_url(priority_todo_factory):
       priority_todo_factory
       response = client.post('/init_list/', {'title': 'new ide1a'}, format='json')
-#     assert response.status_code == 200
+      assert response.status_code == 200
       assert len(response.json()) == 3
 
 @pytest.fixture

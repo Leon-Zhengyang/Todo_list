@@ -7,7 +7,7 @@ import pytest
 client = APIClient()
 @pytest.mark.django_db
 def test_url():
-    response = client.post('init_list/', {'title': 'new idea'}, format='json')
+    response = client.post('init_list/', {'title': 'new ide1a'}, format='json')
     assert response.status_code == 200
 
 @pytest.fixture

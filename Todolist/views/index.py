@@ -76,8 +76,8 @@ def edit(request):
     # return new todo list again
     todo_all = Todo.objects.filter(deleted=0)
     todo_json = serializers.serialize("json", todo_all)
-    
-    return HttpResponse(todo_json, content_type="text/json-comment-filtered")   
+    print(9999)
+    return HttpResponse(todo_json, content_type="application/json")   
 
 
 @csrf_exempt

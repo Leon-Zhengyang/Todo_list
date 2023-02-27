@@ -11,11 +11,20 @@ from . import error_msg
 from . import const
 
 
-def index(request):
-    if not Priority.objects.all():
+def index(request): 
+    try:
+        Priority.objects.get(label="高")
+    except:
         Priority.objects.create(label="高")
+    try:
+        Priority.objects.get(label="中")
+    except:
         Priority.objects.create(label="中")
+    try:
+        Priority.objects.get(label="低")
+    except:
         Priority.objects.create(label="低")
+
     return render(request, "HTML/index.html")
 
 

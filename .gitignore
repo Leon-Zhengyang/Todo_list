@@ -1,3 +1,4 @@
 .env
 env
+django-app-key-ryu.pem
 __pycache__/

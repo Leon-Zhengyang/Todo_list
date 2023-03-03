@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -10,26 +11,25 @@ from .validation import validate
 from . import error_msg
 from . import const
 
+# 初期ラベル作成
+def __create_priority():
+    labels = ["高", "中", "低"]
+    for label in labels:
+        try:
+            Priority.objects.get(label=label)
+        except:
+            Priority.objects.create(label=label)   
 
+# 初期レンダリングする時
 def index(request): 
-    try:
-        Priority.objects.get(label="高")
-    except:
-        Priority.objects.create(label="高")
-    try:
-        Priority.objects.get(label="中")
-    except:
-        Priority.objects.create(label="中")
-    try:
-        Priority.objects.get(label="低")
-    except:
-        Priority.objects.create(label="低")
+    __create_priority()
 
     return render(request, "HTML/index.html")
 
 
 @csrf_exempt
 def regist(request):
+    priority_dic = {"1":"高", "2":"中", "3":"低"}
     # get regist request params
     task = request.POST.get("task")
     priority_id = request.POST.get("priority")
@@ -50,7 +50,7 @@ def regist(request):
     
     # create new todo list
     if result_start and result_end and result_task:
-        priority = Priority.objects.get(pk=priority_id)
+        priority = Priority.objects.get(label=priority_dic[priority_id])
         Todo.objects.create(
             task=task,
             date_start=date_start,
@@ -116,9 +116,18 @@ def search(request):
 @csrf_exempt
 def init_list(request):
     # return all todo lists for first time 
-    todo_list = Todo.objects.filter(deleted=0)
-    todo_json = serializers.serialize("json", todo_list)
-    return HttpResponse(todo_json, status=200, content_type="application/json") 
+    todo_lists = Todo.objects.filter(deleted=0)
+    todo_arr = []
+    for todo in todo_lists:
+        todo_arr.append({
+            "id": todo.id,
+            "task":todo.task,
+            "date_start": todo.date_start.strftime('%Y-%m-%d'),
+            "date_limit": todo.date_limit.strftime('%Y-%m-%d'),
+            "priority": todo.priority.label,
+            "comment": todo.comment
+        })
+    return HttpResponse(json.dumps(todo_arr), status=200, content_type="application/json") 
 
 
 # delete

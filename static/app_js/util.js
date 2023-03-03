@@ -25,6 +25,7 @@ export function get_all_todo(){
             if(this.readyState === XMLHttpRequest.DONE && this.status === 200){
                   let res = this.response
                   let todo_json = JSON.parse(res)
+                  console.log(todo_json)
                   create_html(todo_json)
             }
       }
@@ -63,24 +64,24 @@ export function create_html(todo_json){
       for(let key in todo_json){
             if(todo_json[key]){
                   let td_html = ""
-                  td_html += "<td hidden id='todo-id-" + key + "'>" +todo_json[key]["pk"] + "</td>"
-                  td_html += "<td><input id='todo-list-task-" + key + "' type='text' style='border:none' value=" + todo_json[key]["fields"]["task"] +" readonly></td>"
-                  let date_start_new = todo_json[key]["fields"]["date_start"].split("T")[0]
-                  let date_limit_new = todo_json[key]["fields"]["date_limit"].split("T")[0]
+                  td_html += "<td hidden id='todo-id-" + key + "'>" +todo_json[key]["id"] + "</td>"
+                  td_html += "<td><input id='todo-list-task-" + key + "' type='text' style='border:none' value=" + todo_json[key]["task"] +" readonly></td>"
+                  let date_start_new = todo_json[key]["date_start"]
+                  let date_limit_new = todo_json[key]["date_limit"]
                   td_html += "<td><input id='todo-list-date_start-" + key + "' type='date' style='border:none' value=" + date_start_new + " readonly></td>"
                   td_html += "<td><input id='todo-list-date_limit-" + key + "' type='date' style='border:none' value=" + date_limit_new + " readonly></td>"
                   let option_value1 = "value='1'"
                   let option_value2 = "value='2'"
                   let option_value3 = "value='3'"
-                  if(todo_json[key]["fields"]["priority"] == 1){
+                  if(todo_json[key]["priority"] == "高"){
                         option_value1 += " selected"
-                  }else if(todo_json[key]["fields"]["priority"] == 2){
+                  }else if(todo_json[key]["priority"] == "中"){
                         option_value2 += " selected"
                   }else{
                         option_value3 += " selected"
                   }
                   td_html += "<td><select id='todo-list-priority' style='border:none' disabled><option " + option_value1 +">高</option><option " + option_value2 + ">中</option><option " + option_value3 + ">低</option></select></td>"
-                  let com_fill = todo_json[key]["fields"]["comment"].length>0?todo_json[key]["fields"]["comment"]:'&nbsp;'
+                  let com_fill = todo_json[key]["comment"].length>0?todo_json[key]["comment"]:'&nbsp;'
                   td_html += "<td><input id='todo-list-comment-" + key + "' type='text' style='border:none' value=" + com_fill + " readonly></td>"    
 
                   let td_delete = "<td id='td-operate'><input type='button' id='edit-btn-" + key + "' value='編集' onclick='editRow(this)'> \

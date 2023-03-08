@@ -58,23 +58,31 @@ def regist(request):
             priority=priority,
             comment=comment
         )
-        todo_json = serializers.serialize("json", Todo.objects.filter(deleted=0))
-    
-    return HttpResponse(todo_json, content_type="text/json-comment-filtered") 
+        todo_all = Todo.objects.filter(deleted=0)
+        todo_arr = []
+        for todo in todo_all:
+            todo_arr.append({
+                "id": todo.id,
+                "task":todo.task,
+                "date_start": todo.date_start.strftime('%Y-%m-%d'),
+                "date_limit": todo.date_limit.strftime('%Y-%m-%d'),
+                "priority": todo.priority.label,
+                "comment": todo.comment
+            })
+    return HttpResponse(json.dumps(todo_arr), status=200, content_type="application/json") 
 
 @csrf_exempt
 def edit(request):
     # get edit request params 
     pk = request.POST.get("todo_id")
     task = request.POST.get("task")
-    priority_id = request.POST.get("priority")
+    priority_label = request.POST.get("priority")
     date_start = request.POST.get("date_start")
     date_limit = request.POST.get("date_end")
     comment = request.POST.get("comment")
-
     # get exist todo data and resave it
     todo = Todo.objects.get(pk=pk)
-    priority = Priority.objects.get(pk=priority_id)
+    priority = Priority.objects.get(label=priority_label)
     todo.task = task
     todo.date_start = date_start
     todo.date_limit = date_limit
@@ -84,9 +92,18 @@ def edit(request):
 
     # return new todo list again
     todo_all = Todo.objects.filter(deleted=0)
-    todo_json = serializers.serialize("json", todo_all)
+    todo_arr = []
+    for todo in todo_all:
+        todo_arr.append({
+            "id": todo.id,
+            "task":todo.task,
+            "date_start": todo.date_start.strftime('%Y-%m-%d'),
+            "date_limit": todo.date_limit.strftime('%Y-%m-%d'),
+            "priority": todo.priority.label,
+            "comment": todo.comment
+        })
     
-    return HttpResponse(todo_json, content_type="text/json-comment-filtered")   
+    return HttpResponse(json.dumps(todo_arr), status=200, content_type="application/json")   
 
 
 @csrf_exempt
@@ -108,9 +125,18 @@ def search(request):
         q_task & q_comment & q_date_start & q_date_limit & q_priority &
         Q(deleted=0)
     )
-    
-    todo_json = serializers.serialize("json", todo_list)
-    return HttpResponse(todo_json, content_type="text/json-comment-filtered")   
+    todo_arr = []
+    for todo in todo_list:
+        todo_arr.append({
+            "id": todo.id,
+            "task":todo.task,
+            "date_start": todo.date_start.strftime('%Y-%m-%d'),
+            "date_limit": todo.date_limit.strftime('%Y-%m-%d'),
+            "priority": todo.priority.label,
+            "comment": todo.comment
+        })
+
+    return HttpResponse(json.dumps(todo_arr), status=200, content_type="application/json")   
 
 
 @csrf_exempt

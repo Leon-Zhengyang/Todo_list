@@ -51,6 +51,7 @@ export function regist_todo(){
                   }
                   else{
                         let todo_json = JSON.parse(res)
+                        console.log("todo=json", todo_json)
                         create_html(todo_json)
                   }    
             }
@@ -63,6 +64,7 @@ export function create_html(todo_json){
       let tr_html = ""
       for(let key in todo_json){
             if(todo_json[key]){
+                  console.log("todo-json-key", todo_json[key])
                   let td_html = ""
                   td_html += "<td hidden id='todo-id-" + key + "'>" +todo_json[key]["id"] + "</td>"
                   td_html += "<td><input id='todo-list-task-" + key + "' type='text' style='border:none' value=" + todo_json[key]["task"] +" readonly></td>"
@@ -81,6 +83,7 @@ export function create_html(todo_json){
                         option_value3 += " selected"
                   }
                   td_html += "<td><select id='todo-list-priority' style='border:none' disabled><option " + option_value1 +">高</option><option " + option_value2 + ">中</option><option " + option_value3 + ">低</option></select></td>"
+                  console.log("comment", todo_json[key]["comment"])
                   let com_fill = todo_json[key]["comment"].length>0?todo_json[key]["comment"]:'&nbsp;'
                   td_html += "<td><input id='todo-list-comment-" + key + "' type='text' style='border:none' value=" + com_fill + " readonly></td>"    
 

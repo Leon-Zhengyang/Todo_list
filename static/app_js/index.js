@@ -3,7 +3,7 @@ import * as util from './util.js'
 window.addEventListener('DOMContentLoaded', () => {
       util.get_all_todo()
       va.regist_btn.addEventListener("click", function(){
-            util.regist_todo()
+            util.regist_todo_validate()
       })
 
       // reset button(regist)

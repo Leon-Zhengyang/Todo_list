@@ -25,11 +25,20 @@ export function get_all_todo(){
             if(this.readyState === XMLHttpRequest.DONE && this.status === 200){
                   let res = this.response
                   let todo_json = JSON.parse(res)
-                  console.log(todo_json)
                   create_html(todo_json)
             }
       }
       request.send(data)
+}
+
+export function regist_todo_validate(){
+      let from = Date.parse(va.date_start_regist.value)
+      let to =  Date.parse(va.date_end_regist.value)
+      if(to < from){
+            va.error_msg.innerText = "開始日と締め切りをもう一度ご確認ください"
+      }else{
+            regist_todo()
+      }
 }
 
 export function regist_todo(){
@@ -51,8 +60,8 @@ export function regist_todo(){
                   }
                   else{
                         let todo_json = JSON.parse(res)
-                        console.log("todo=json", todo_json)
                         create_html(todo_json)
+                        va.error_msg.innerText = ""
                   }    
             }
       }
@@ -64,7 +73,6 @@ export function create_html(todo_json){
       let tr_html = ""
       for(let key in todo_json){
             if(todo_json[key]){
-                  console.log("todo-json-key", todo_json[key])
                   let td_html = ""
                   td_html += "<td hidden id='todo-id-" + key + "'>" +todo_json[key]["id"] + "</td>"
                   td_html += "<td><input id='todo-list-task-" + key + "' type='text' style='border:none' value=" + todo_json[key]["task"] +" readonly></td>"
@@ -83,7 +91,6 @@ export function create_html(todo_json){
                         option_value3 += " selected"
                   }
                   td_html += "<td><select id='todo-list-priority' style='border:none' disabled><option " + option_value1 +">高</option><option " + option_value2 + ">中</option><option " + option_value3 + ">低</option></select></td>"
-                  console.log("comment", todo_json[key]["comment"])
                   let com_fill = todo_json[key]["comment"].length>0?todo_json[key]["comment"]:'&nbsp;'
                   td_html += "<td><input id='todo-list-comment-" + key + "' type='text' style='border:none' value=" + com_fill + " readonly></td>"    
 

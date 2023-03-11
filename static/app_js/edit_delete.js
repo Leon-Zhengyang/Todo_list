@@ -110,7 +110,6 @@ function get_all_todo(){
 
 // todo list 一覧描画
 function create_todo_html(todo_json){
-      console.log(todo_json)
       let tr_html = ""
       for(let key in todo_json){
             if(todo_json[key]){
